@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "YrRuter": {
+            "applicationId": "Rx67zlod2jho1hBEbPVPQ1okFW8P4jDM9eEsHWsL", 
+            "masterKey": "GrAwil92HeY0hRwGWJWxiTBYr9Fqv2uaWeTYSwts"
+        }, 
+        "_default": {
+            "link": "YrRuter"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.19"
+    }
+}
