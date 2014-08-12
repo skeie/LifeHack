@@ -1,0 +1,115 @@
+.first {
+	width: 70em;
+	position: absolute;
+	left: 4em;
+	top:70px;
+}
+
+.second {
+	width: 25em;
+	position: absolute;
+	left: 75em;
+	top:70px;
+}
+
+
+.distanceTD {
+	width: 10em;
+}
+
+.weatherBox {
+	height: 170px;
+}
+
+.weatherIcon {
+	padding-top: 36px;
+	position: absolute;
+	padding-left: 6em;
+}
+
+.weahterDescription{
+	padding-top: 90px;
+	position: absolute;
+}
+
+.weatherFrom {
+	position: absolute;
+}
+
+
+.text {
+	font-family: 'Droid Sans', sans-serif;
+	font-size: 18px;
+}
+#yr {
+	font-family: 'Droid Sans', sans-serif;
+	font-size: 15px;
+}
+
+
+@media screen and (max-width: 1396px) {
+	.first {
+		width: 50em;
+	}
+	.second {
+		width:20em;
+		left:55em;
+	}
+	.text {
+		font-family: 'Droid Sans', sans-serif;
+		font-size: 14px;
+	}
+}
+
+@media screen and (max-width: 1050px) {
+	.first {
+		width: 25em;
+	}
+	.second {
+		width:15em;
+		left:30em;
+	}
+
+}
+
+@media screen and (max-width: 623px) {
+	.first {
+		width: 38em;
+		height: 150em;
+		overflow: auto;
+	}
+	.second {
+		width: 38em;
+		left: 4em;
+		top: 156em;
+	}
+	.weatherBox {
+		height: 120px;
+	}
+
+	.weatherIcon {
+		position: relative;
+		padding-left:1em;
+	}
+
+	.weahterDescription{
+		position: relative;
+		padding-left:1em;
+		padding-top:0em;
+
+
+	}
+
+	.weatherFrom {
+		position: relative;
+		padding-left:1em;
+
+
+	}
+
+
+
+}
+
+
+

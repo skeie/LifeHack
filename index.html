@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<!-- define angular app -->
+<html ng-app="Ruter">
+
+<head>
+  <!-- SCROLLS -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+  <link rel="stylesheet" href="css/weather-icons.css"/>
+  <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+
+
+  <!-- SPELLS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+  <script src="mainController.js"></script>
+  <script src="directives.js"></script>
+  <script src="xml2json.js"></script>
+  <script src="http://www.parsecdn.com/js/parse-1.2.13.min.js"></script>
+
+
+  <link rel="stylesheet" type="text/css" href="css/design.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="css/weather-icons.css" media="screen" />
+
+
+
+
+  <!--<link rel="stylesheet" type="text/css" href="design.css" media="screen" /> -->
+
+
+
+</head>
+
+<!-- define angular controller -->
+<body ng-controller="mainController" ng-init="init()">
+
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">  </a>
+      </div>
+    </nav>
+
+    <!-- first-->
+    <div class="panel panel-primary first" >
+      <!-- Default panel contents -->
+      <div class="panel-heading">Ruter for Arups gate 
+      </div>
+      <div class="panel-body">
+
+
+        <!--table-->
+        <table class="table table-condensed" ng-repeat="lines in publicTransport">
+
+
+
+          <thead>
+            <tr>
+              <th class="distanceTD text">Line</th>
+              <th class="distanceTD text">Sanntid</th>
+              <th class="distanceTD text">Direction</th>
+              <th class="distanceTD text">Destination</th>
+
+            </tr>
+          </thead>
+
+
+          <tbody>
+
+            <tr>
+              <td ng-class="appliedClass(lines.color, lines.line)"  class="distanceTD text"> {{lines.line}} </td>
+              <td ng-class="appliedClass(lines.color, lines.line)" class="distanceTD text"> {{lines.minutesToArrival}} Minutter</td>
+              <td ng-class="appliedClass(lines.color, lines.line)"class="distanceTD text">{{lines.DirectionRef}}</td>
+              <td ng-class="appliedClass(lines.color, lines.line)" class="distanceTD text">{{lines.destination}}</td>
+
+            </tr>            
+          </tbody>
+        </table>
+        <!--end of table-->
+      </div>
+
+    </div>
+    <div class="panel panel-primary second" >
+      <!-- Default panel contents -->
+      <div class="panel-heading">The Weather 
+      </div>
+      <div class="panel-body">
+        <table class ="weatherBox" ng-repeat="weather in periodeArray">
+
+          <tbody>
+
+            <tr>
+
+             <!-- <td class="weatherIcon"> <i class="wi wi-day-cloudy fa-4x"></i></td> -->
+             <td class="weatherFrom text"> {{weather.day}} From: {{weather._from | date:'HH:mm'}} - To: {{weather._to | date:'HH:mm'}} </td>
+             <td class="weatherIcon"> <i ng-class="appliedWeatherClass(weather.symbol._numberEx)"></i></td>
+             <td class="weahterDescription text"> {{weather.symbol._name}} with a temperature: {{weather.temperature._value}}</td>
+           </tr>
+
+         </tbody>
+       </table>
+     </div>
+     <p id="yr">Weather forecast from yr.no, delivered by the Norwegian Meteorological Institute and the NRK</p>
+
+   </div>
+
+
+
+
+
+
+
+ </div>
+
+ <footer class="text-center">
+
+ </footer>
+
+</body>
+
+</html>
