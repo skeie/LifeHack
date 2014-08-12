@@ -1,7 +1,7 @@
 var app = angular.module('Ruter',['myApp.service']);
 
 	// create the controller and inject Angular's $scope
-	app.controller('mainController', function($scope, $http,$timeout,DataSource, Harald, Munke) {
+	app.controller('mainController', function($scope, $http,$timeout,DataSource, RESTapi) {
 		$scope.publicTransport =[];
 		$scope.harald = [];
 		$scope.munke = [];
@@ -47,23 +47,28 @@ var app = angular.module('Ruter',['myApp.service']);
 
 
 		var getMunke = function() {
-			var promise = Munke.Munke();
+			console.log(RESTapi);
+			console.log(RESTapi.Harald);
+			/*
+			var promise = RESTapi.Munke();
 			promise.then(
 				function(ruterInfo) {
 					var res = JSON.parse(ruterInfo);
 					$scope.munke = res;
 					$scope.data();
-					$timeout(getMunke,timeHarald);
+					$timeout(getMunke,timeMunke);
 					timeMunke = 60000;	
 				},function(errorInfo){
 					console.log(errorInfo);
 				});
+*/
 		};
 
 
 
 		var getHarald = function() {
-			var promise = Harald.Harald();
+			/*
+			var promise = RESTapi.Harald();
 			promise.then(
 				function(ruterInfo) {
 					var res = JSON.parse(ruterInfo);
@@ -74,6 +79,7 @@ var app = angular.module('Ruter',['myApp.service']);
 				},function(errorInfo){
 					console.log(errorInfo);
 				});
+*/
 		};
 
 

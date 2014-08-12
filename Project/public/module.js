@@ -19,25 +19,21 @@
 
 		}]);
 
-		app.factory('Harald', function() {
+
+		app.service('RESTapi', function() {
 			Parse.initialize("Rx67zlod2jho1hBEbPVPQ1okFW8P4jDM9eEsHWsL", "VGJLUMyFzjYB2406OBDd7EwJrEPdM3yVyA235QKg");	
-			return {
-				Harald:function() {
-					return Parse.Cloud.run('getHarald',{});
-				}
-			};	
 
-		});
+			var factory = {};
 
+			factory.Harald =  Parse.Cloud.run('getHarald',{});
 
-		app.factory('Munke', function() {
-			Parse.initialize("Rx67zlod2jho1hBEbPVPQ1okFW8P4jDM9eEsHWsL", "VGJLUMyFzjYB2406OBDd7EwJrEPdM3yVyA235QKg");	
-			return {
-				Munke:function() {
-					return Parse.Cloud.run('getMunke',{});
-				}
-			};
-		});
+			factory.Munke =  Parse.Cloud.run('getMunke',{});
+
+			factory.yr = Parse.Cloud.run('getWeather', {});
+
+			return factory;
+
+			})
 
 
 
