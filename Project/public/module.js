@@ -20,20 +20,22 @@
 		}]);
 
 
-		app.service('RESTapi', function() {
+		app.factory('Ruter', function() {
 			Parse.initialize("Rx67zlod2jho1hBEbPVPQ1okFW8P4jDM9eEsHWsL", "VGJLUMyFzjYB2406OBDd7EwJrEPdM3yVyA235QKg");	
 
 			var factory = {};
 
 			factory.Harald =  Parse.Cloud.run('getHarald',{});
-
 			factory.Munke =  Parse.Cloud.run('getMunke',{});
-
-			factory.yr = Parse.Cloud.run('getWeather', {});
-
 			return factory;
 
-			})
+		});
+
+		app.factory('YR', function() {
+			return Parse.Cloud.run('getWeather', {});
+
+		})
+
 
 
 

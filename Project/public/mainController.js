@@ -1,7 +1,7 @@
 var app = angular.module('Ruter',['myApp.service']);
 
 	// create the controller and inject Angular's $scope
-	app.controller('mainController', function($scope, $http,$timeout,DataSource, RESTapi) {
+	app.controller('mainController', function($scope, $http,$timeout,DataSource, Ruter, YR) {
 		$scope.publicTransport =[];
 		$scope.harald = [];
 		$scope.munke = [];
@@ -16,8 +16,7 @@ var app = angular.module('Ruter',['myApp.service']);
 		$scope.init = function() {
 			initWeatherArray();
 			getWeather();
-			getHarald();
-			getMunke();	
+			getMunke();
 
 		};
 
@@ -45,12 +44,8 @@ var app = angular.module('Ruter',['myApp.service']);
 
 		}
 
-
 		var getMunke = function() {
-			console.log(RESTapi);
-			console.log(RESTapi.Harald);
-			/*
-			var promise = RESTapi.Munke();
+			var promise = Ruter.Munke;
 			promise.then(
 				function(ruterInfo) {
 					var res = JSON.parse(ruterInfo);
@@ -61,14 +56,12 @@ var app = angular.module('Ruter',['myApp.service']);
 				},function(errorInfo){
 					console.log(errorInfo);
 				});
-*/
 		};
 
 
 
 		var getHarald = function() {
-			/*
-			var promise = RESTapi.Harald();
+			var promise = Ruter.Harald();
 			promise.then(
 				function(ruterInfo) {
 					var res = JSON.parse(ruterInfo);
@@ -79,103 +72,103 @@ var app = angular.module('Ruter',['myApp.service']);
 				},function(errorInfo){
 					console.log(errorInfo);
 				});
-*/
+			
 		};
 
 
 		$scope.data = function() {
 			$scope.posts = $scope.harald.concat($scope.munke)
-				//console.log($scope.posts);
-				for (var i = 0; i < $scope.posts.length; i++) {
-					var temp = {minutesToArrival:0, destination:"", color:0, DirectionRef:"", line:0};
-					var line = $scope.posts[i].MonitoredVehicleJourney.LineRef;
-					if(line == 37 || line == 19 || line == 18 || line == 70 || line == 34) {
-						temp.minutesToArrival = getDifference($scope.posts[i].MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime);
-						temp.destination = $scope.posts[i].MonitoredVehicleJourney.DestinationName;
-						if(temp.minutesToArrival < 30 && temp.minutesToArrival> 0){
-							temp.color= minutes(temp.minutesToArrival); 
-							temp.line = line;
-							if($scope.posts[i].MonitoredVehicleJourney.DirectionRef === "2") 
-								temp.DirectionRef ="City";
-							else
-								temp.DirectionRef ="Other";	
-							tempArray.push(temp);
+			for (var i = 0; i < $scope.posts.length; i++) {
+				var temp = {minutesToArrival:0, destination:"", color:0, DirectionRef:"", line:0};
+				var line = $scope.posts[i].MonitoredVehicleJourney.LineRef;
+				if(line == 37 || line == 19 || line == 18 || line == 70 || line == 34) {
+					temp.minutesToArrival = getDifference($scope.posts[i].MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime);
+					temp.destination = $scope.posts[i].MonitoredVehicleJourney.DestinationName;
+					if(temp.minutesToArrival < 30 && temp.minutesToArrival> 0){
+						temp.color= minutes(temp.minutesToArrival); 
+						temp.line = line;
+						if($scope.posts[i].MonitoredVehicleJourney.DirectionRef === "2") 
+							temp.DirectionRef ="City";
+						else
+							temp.DirectionRef ="Other";	
+						tempArray.push(temp);
 
 
-
-						}
 
 					}
+
 				}
-				$scope.publicTransport = tempArray;
-				tempArray = [];
-
-				sortArray();
-
 			}
-			var minutes = function (min) {
-				if(min < 5)
-					return 1
-				if(min < 15)
-					return 2
-				else
-					return 3
+			$scope.publicTransport = tempArray;
+			tempArray = [];
 
+			sortArray();
+
+		}
+		var minutes = function (min) {
+			if(min < 5)
+				return 1
+			if(min < 15)
+				return 2
+			else
+				return 3
+
+		}
+
+		var getDifference = function(dt) {
+			var currentdate = new Date(); 
+			var transportDate = new Date(dt)
+			var seconds = Math.round((transportDate-currentdate)/1000);
+			var minutes = seconds/60;
+			return minutes.toString().split(".")[0];
+		};
+
+		var sortArray = function() {
+			$scope.publicTransport.sort(function(a,b){
+				return (a.minutesToArrival) -  (b.minutesToArrival);
+			});
+
+
+		}
+
+
+		$scope.appliedClass = function(color, line) {
+			if(color === 1){
+				if(line == 37){
+					return "success";
+				}
 			}
+			if(color === 1)
+				return "danger";
+			if(color === 2)
+				return "success";
+			else
+				return "active";
 
-			var getDifference = function(dt) {
-				var currentdate = new Date(); 
-				var transportDate = new Date(dt)
-				var seconds = Math.round((transportDate-currentdate)/1000);
-				var minutes = seconds/60;
-				return minutes.toString().split(".")[0];
+		}
+
+		$scope.appliedWeatherClass = function (weatherNr) {
+			return weatherArray[weatherNr-1];
+
+		} 
+
+
+
+
+
+		var getWeather = function() {
+			var promise = YR;
+			promise.then(
+				function(YRInfo) {
+					$scope.weatherData = YRInfo;
+					xmlTransform();
+				},function(errorInfo){
+					console.log(errorInfo);
+				});
 			};
 
-			var sortArray = function() {
-				$scope.publicTransport.sort(function(a,b){
-					return (a.minutesToArrival) -  (b.minutesToArrival);
-				});
 
 
-			}
-
-
-			$scope.appliedClass = function(color, line) {
-				if(color === 1){
-					if(line == 37){
-						return "success";
-					}
-				}
-				if(color === 1)
-					return "danger";
-				if(color === 2)
-					return "success";
-				else
-					return "active";
-
-			}
-
-			$scope.appliedWeatherClass = function (weatherNr) {
-				return weatherArray[weatherNr-1];
-
-			} 
-
-
-
-
-
-			var getWeather = function() {
-				Parse.Cloud.run('getWeather', {}, {
-					success: function(result) {
-						$scope.weatherData = result;
-						xmlTransform();
-
-
-					},
-					error: function(error) {
-						console.log("ERROR "+ error);
-					}
-				})};
 				var initWeatherArray = function () {
 					weatherArray[0] = "wi wi-day-sunny fa-4x";
 					weatherArray[1] = "wi wi-day-cloudy fa-4x";
